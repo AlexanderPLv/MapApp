@@ -9,7 +9,8 @@
 import UIKit
 import MapKit
 import CoreLocation
-class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate , UIImagePickerControllerDelegate, UICollectionViewDataSource {
+import Cluster
+class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationControllerDelegate , UIImagePickerControllerDelegate, UICollectionViewDataSource, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cameraButtonBottomConstraint: NSLayoutConstraint!
@@ -19,6 +20,7 @@ class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationController
     @IBOutlet weak var cameraButton: UIButton!
     
     let picker = UIImagePickerController()
+    let clusterManager = ClusterManager()
     
     var goingToShowCollectionView = true
     
@@ -61,18 +63,25 @@ class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationController
             collectionViewBottomConstraint.constant = -100
             cameraButtonBottomConstraint.constant = 20
         }
-        
         UIView.animate(withDuration: 0.3) {
             self.collectionView.alpha = self.goingToShowCollectionView ? 1 : 0
             self.cameraButton.alpha = self.goingToShowCollectionView ? 0 : 1
             
-            
             self.view.layoutIfNeeded()
         }
-        
         goingToShowCollectionView = !goingToShowCollectionView
-        
     }
+    
+    func addAnnotation(with image: UIImage) {
+        guard let currentLocationCoordinate = currentLocation else { return }
+        let annotation = PhotoAnnotation(image: image)
+        annotation.coordinate = currentLocationCoordinate.coordinate
+        clusterManager.add(annotation)
+        
+        clusterManager.reload(mapView: mapView)
+    }
+    
+    // MARK: - Location Manager Delegate
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
@@ -87,6 +96,8 @@ class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationController
         self.currentLocation = currentLocation
     }
     
+    // MARK: - Image Picker Controller Delegate
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
@@ -95,10 +106,12 @@ class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationController
         dismiss(animated: true)
         
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-
+        addAnnotation(with: image)
         images.append(image)
         collectionView.reloadData()
     }
+    
+    // MARK: - Collection View Data Source Delegate
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
@@ -112,5 +125,70 @@ class MapVC: UIViewController, CLLocationManagerDelegate, UINavigationController
         
         return cell
     }
+    
+    // MARK: - Map View Delegate
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if let clusterAnnotation = annotation as? ClusterAnnotation {
+            let identifier = "Cluster"
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            
+            if let clusterAnnotationView = view as? ClusterAnnotationView {
+                
+                clusterAnnotationView.annotation = clusterAnnotation
+                clusterAnnotationView.countLabel.text = String(clusterAnnotation.annotations.count)
+                
+            } else {
+                let clusterAnnotationView = StyledClusterAnnotationView(annotation: clusterAnnotation,
+                                                                        reuseIdentifier: identifier,
+                                                                        style: .color(.green, radius: 25))
+                view = clusterAnnotationView
+            }
+            return view
+            
+        } else if let photoAnnotation = annotation as? PhotoAnnotation {
+            
+            let identifier = "Photo"
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            
+            if let annotationView = view {
+                
+                annotationView.annotation = photoAnnotation
+                
+            } else {
+                
+                let annotationView = MKAnnotationView(annotation: photoAnnotation, reuseIdentifier: identifier)
+                view = annotationView
+                
+            }
+            
+            view?.image = photoAnnotation.resizedImage
+            
+            return view
+        }
+        
+        return nil
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }

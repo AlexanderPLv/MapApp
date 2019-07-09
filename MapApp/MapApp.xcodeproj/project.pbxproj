@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9AACB16E22D4DB9300A3577C /* PhotoAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AACB16D22D4DB9300A3577C /* PhotoAnnotation.swift */; };
 		9AB02C9D22CCE23B00BC2555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB02C9C22CCE23B00BC2555 /* AppDelegate.swift */; };
 		9AB02CA222CCE23B00BC2555 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AB02CA022CCE23B00BC2555 /* Main.storyboard */; };
 		9AB02CA422CCE24000BC2555 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AB02CA322CCE24000BC2555 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 		0D353EA2D00AA9D44DCF546A /* Pods_MapApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C038B9FCDDF99EBF7A6E6EE /* Pods-MapApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapApp.release.xcconfig"; path = "Target Support Files/Pods-MapApp/Pods-MapApp.release.xcconfig"; sourceTree = "<group>"; };
 		60E280F6183DEE74C03E53D4 /* Pods-MapApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapApp.debug.xcconfig"; path = "Target Support Files/Pods-MapApp/Pods-MapApp.debug.xcconfig"; sourceTree = "<group>"; };
+		9AACB16D22D4DB9300A3577C /* PhotoAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAnnotation.swift; sourceTree = "<group>"; };
 		9AB02C9922CCE23B00BC2555 /* MapApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB02C9C22CCE23B00BC2555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AB02CA122CCE23B00BC2555 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -48,7 +50,6 @@
 				60E280F6183DEE74C03E53D4 /* Pods-MapApp.debug.xcconfig */,
 				3C038B9FCDDF99EBF7A6E6EE /* Pods-MapApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -80,6 +81,7 @@
 				9AB02CA322CCE24000BC2555 /* Assets.xcassets */,
 				9AB02CA522CCE24000BC2555 /* LaunchScreen.storyboard */,
 				9AB02CA822CCE24000BC2555 /* Info.plist */,
+				9AACB16D22D4DB9300A3577C /* PhotoAnnotation.swift */,
 			);
 			path = MapApp;
 			sourceTree = "<group>";
@@ -208,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB02C9D22CCE23B00BC2555 /* AppDelegate.swift in Sources */,
+				9AACB16E22D4DB9300A3577C /* PhotoAnnotation.swift in Sources */,
 				9AB02CAF22CCE48300BC2555 /* MapVC.swift in Sources */,
 				9AD0DFAA22D391E800C00B3E /* ImageCell.swift in Sources */,
 			);
